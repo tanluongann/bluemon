@@ -8,9 +8,11 @@ import json
 from config import config
 from targets import targets
 
+
 interval = config['info']['interval']
 averaging = 7
 discovery_file = 'discovery.json'
+
 
 def db_write(client, data):
     try:
@@ -60,7 +62,7 @@ if __name__ == '__main__':
                 presence[mac].pop(0)
             presence[mac].append(False)
 
-        # Performing an ARP query to get network clients
+        # Performing an ARP query to discover network clients (to be saved)
         devices = bluetooth.discover_devices(lookup_names=True)
 
         # Parsing the BT scan answer
@@ -104,7 +106,7 @@ if __name__ == '__main__':
                     "fields": {
                         "value": val,
                         "mac": mac,
-                   },
+                    },
                 }
             ]
             db_write(client, data)
